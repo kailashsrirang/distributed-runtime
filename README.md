@@ -9,6 +9,9 @@ A C++20 processing runtime for Linux, built incrementally toward distributed exe
 - Reusable statistics library: count, minimum, maximum, and mean.
 - Demo executable using a fixed set of readings.
 - Tests for normal, single-value, negative, fractional, and empty input.
+- Deterministic sensor-data generation.
+- Block splitting without copying readings, including partial final blocks.
+- Tests for block boundaries, input coverage, and invalid block sizes.
 
 ## Development
 

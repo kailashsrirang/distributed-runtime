@@ -1,17 +1,33 @@
-#include <iostream>
+#include "dataset.hpp"
 #include "statistics.hpp"
 
-#include <vector>
+#include <cstddef>
+#include <iostream>
 
 int main()
 {
-    const std::vector<double> samples{1.0, 2.0, 3.0, 4.0, 5.0};
+    const auto samples = generate_samples(10);
+    const auto blocks = split_blocks(samples, 4);
 
-    const Statistics result = calculate_statistics(samples);
+    std::size_t processed_count = 0;
 
-    std::cout << "Count: " << result.count << '\n';
-    std::cout << "Minimum: " << result.minimum << '\n';
-    std::cout << "Maximum: " << result.maximum << '\n';
-    std::cout << "Mean: " << result.mean << '\n';
+    for (std::size_t block_id = 0; block_id < blocks.size(); ++block_id)
+    {
+        const Statistics result = calculate_statistics(blocks[block_id]);
+
+        processed_count += result.count;
+
+        std::cout << "Block " << block_id
+                  << ": count=" << result.count
+                  << ", min=" << result.minimum
+                  << ", max=" << result.maximum
+                  << ", mean=" << result.mean
+                  << '\n';
+    }
+
+    std::cout << "Processed " << processed_count
+              << " readings across " << blocks.size()
+              << " blocks\n";
+
     return 0;
 }

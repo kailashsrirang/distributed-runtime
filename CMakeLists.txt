@@ -5,6 +5,7 @@ project(distributed_runtime VERSION 0.1.0 LANGUAGES CXX)
 # Compiles src/statistics.cpp into a static library. run_timecore is like a module
 add_library(runtime_core STATIC
     src/statistics.cpp
+    src/dataset.cpp
 )
 # where to find the header files for this library
 target_include_directories(runtime_core PUBLIC
@@ -35,12 +36,20 @@ if(BUILD_TESTING)
 
     # register the test with CTest, so it can be run with ctest command
     add_test(NAME statistics COMMAND statistics_test)
+
+    add_executable(dataset_test
+        tests/dataset_test.cpp
+    )
+
+    target_link_libraries(dataset_test PRIVATE runtime_core)
+
+    add_test(NAME dataset COMMAND dataset_test)
 endif()
 
 set(project_targets runtime_core runtime_demo)
 
 if(BUILD_TESTING)
-    list(APPEND project_targets statistics_test)
+    list(APPEND project_targets statistics_test dataset_test)
 endif()
 
 foreach(target IN LISTS project_targets)
