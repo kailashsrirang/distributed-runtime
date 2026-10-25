@@ -6,6 +6,7 @@ project(distributed_runtime VERSION 0.1.0 LANGUAGES CXX)
 add_library(runtime_core STATIC
     src/statistics.cpp
     src/dataset.cpp
+    src/tcp.cpp
 )
 # where to find the header files for this library
 target_include_directories(runtime_core PUBLIC
@@ -14,13 +15,15 @@ target_include_directories(runtime_core PUBLIC
 
 target_compile_features(runtime_core PUBLIC cxx_std_20)
 
-# compiles src/main.cpp into an executable 
-add_executable(runtime_demo
-    src/main.cpp
-)
+# compiles into executables 
+add_executable(runtime_demo src/main.cpp)
+add_executable(coordinator src/coordinator.cpp)
+add_executable(worker src/worker.cpp)
 
-#Connects the runtime_core library to the runtime_demo executable, allowing it to use the functions and classes defined in runtime_core.
+#Connects the runtime_core library to the all executables, allowing it to use the functions and classes defined in runtime_core.
 target_link_libraries(runtime_demo PRIVATE runtime_core)
+target_link_libraries(coordinator PRIVATE runtime_core)
+target_link_libraries(worker PRIVATE runtime_core)
 
 #enable smake's built-in testing framework
 include(CTest)
@@ -42,7 +45,7 @@ if(BUILD_TESTING)
     add_test(NAME unique_fd COMMAND unique_fd_test)
 endif()
 
-set(project_targets runtime_core runtime_demo)
+set(project_targets runtime_core runtime_demo coordinator worker)
 
 if(BUILD_TESTING)
     list(APPEND 

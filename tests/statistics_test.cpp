@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <vector>
 
+// Helper functions for testing. Only visible in this file
 namespace
 {
     bool nearly_equal(double actual, double expected)

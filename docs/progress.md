@@ -18,3 +18,12 @@
 - Tests cover moves, replacement, release, destruction, and repeated reset.
 - Debug and Release tests passed.
 - Next: a blocking TCP connection between two processes.
+
+## Blocking TCP checkpoint
+- Added coordinator and worker executables.
+- Coordinator listens on loopback port 5000.
+- Verified a one-byte request/reply exchange.
+- Socket descriptors use UniqueFd ownership.
+- Checked worker failure when no coordinator is listening.
+- No task data, timeouts, or automatic TCP tests yet.
+- Next: framed messages and complete-buffer send/receive operations.
