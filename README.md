@@ -12,6 +12,7 @@ A C++20 processing runtime for Linux, built incrementally toward distributed exe
 - Deterministic sensor-data generation.
 - Block splitting without copying readings, including partial final blocks.
 - Tests for block boundaries, input coverage, and invalid block sizes.
+- Move-only RAII ownership for Linux file descriptors, with lifecycle tests.
 
 ## Development
 

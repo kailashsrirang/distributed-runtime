@@ -27,29 +27,30 @@ include(CTest)
 
 if(BUILD_TESTING)
     #compiles statistics_test.cpp into an executable 
-    add_executable(statistics_test
-        tests/statistics_test.cpp
-    )
-
+    add_executable(statistics_test tests/statistics_test.cpp)
     #links it to runtime_core module
     target_link_libraries(statistics_test PRIVATE runtime_core)
-
     # register the test with CTest, so it can be run with ctest command
     add_test(NAME statistics COMMAND statistics_test)
 
-    add_executable(dataset_test
-        tests/dataset_test.cpp
-    )
-
+    add_executable(dataset_test tests/dataset_test.cpp)
     target_link_libraries(dataset_test PRIVATE runtime_core)
-
     add_test(NAME dataset COMMAND dataset_test)
+
+    add_executable(unique_fd_test tests/unique_fd_test.cpp)
+    target_link_libraries(unique_fd_test PRIVATE runtime_core)
+    add_test(NAME unique_fd COMMAND unique_fd_test)
 endif()
 
 set(project_targets runtime_core runtime_demo)
 
 if(BUILD_TESTING)
-    list(APPEND project_targets statistics_test dataset_test)
+    list(APPEND 
+    project_targets
+    statistics_test
+    dataset_test
+    unique_fd_test
+    )
 endif()
 
 foreach(target IN LISTS project_targets)
