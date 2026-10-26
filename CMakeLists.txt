@@ -9,6 +9,7 @@ add_library(runtime_core STATIC
     src/tcp.cpp
     src/protocol.cpp
     src/message.cpp
+    src/payload.cpp
 )
 # where to find the header files for this library
 target_include_directories(runtime_core PUBLIC
@@ -54,6 +55,10 @@ if(BUILD_TESTING)
     target_link_libraries(message_test PRIVATE runtime_core)
     add_test(NAME message COMMAND message_test)
     set_tests_properties(message PROPERTIES TIMEOUT 5)
+
+    add_executable(payload_test tests/payload_test.cpp)
+    target_link_libraries(payload_test PRIVATE runtime_core)
+    add_test(NAME payload COMMAND payload_test)
     
 endif()
 
@@ -66,6 +71,7 @@ if(BUILD_TESTING)
     dataset_test
     unique_fd_test
     protocol_test
+    payload_test
     )
 endif()
 

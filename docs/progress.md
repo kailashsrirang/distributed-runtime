@@ -48,3 +48,15 @@
 - Debug and Release tests passed.
 - No socket deadlines yet; an unresponsive peer can block a process.
 - Next: encode sensor readings and statistics for actual remote processing.
+
+## Remote computation
+- Task payload: 32-bit count followed by binary64 readings.
+- Result payload: 32-bit count, minimum, maximum, and mean.
+- Multibyte fields use big-endian order.
+- Maximum task size: 8191 readings.
+- Empty tasks and non-finite values are rejected.
+- Verified one task through coordinator and worker processes.
+- Coordinator checks result type, task ID, and statistics.
+- Debug and Release tests passed.
+- Still one task per connection; no worker thread pool yet.
+- Next: process multiple numbered blocks over one connection.

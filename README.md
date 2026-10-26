@@ -13,6 +13,9 @@ A C++20 processing runtime for Linux, built incrementally toward distributed exe
 - Block splitting without copying readings, including partial final blocks.
 - Tests for block boundaries, input coverage, and invalid block sizes.
 - Move-only RAII ownership for Linux file descriptors, with lifecycle tests.
+- One worker computes statistics from TCP-delivered readings.
+- Coordinator validates the returned result against a local reference.
+- Explicit binary64 payload encoding with bounds and validity checks.
 
 ## Development
 
