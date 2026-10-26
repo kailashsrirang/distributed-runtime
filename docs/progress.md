@@ -71,3 +71,13 @@
 - Debug and Release tests passed.
 - Still one worker, one computation thread, and one task in flight.
 - Next: bounded queue with close semantics for the worker thread pool.
+
+## Bounded queue
+- Added a reusable mutex/condition-variable queue.
+- Producers wait when full; consumers wait when empty.
+- Close rejects pushes, wakes waiters, and permits queued items to drain.
+- Queue elements must support non-throwing move construction.
+- Added concurrent transfer and shutdown tests.
+- Debug and Release tests passed.
+- Queue is not integrated into the worker yet.
+- Next: build a fixed-size computation thread pool around the queues.

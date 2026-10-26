@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 project(distributed_runtime VERSION 0.1.0 LANGUAGES CXX)
-
+find_package(Threads REQUIRED)
 # Compiles src/statistics.cpp into a static library. run_timecore is like a module
 add_library(runtime_core STATIC
     src/statistics.cpp
@@ -74,6 +74,15 @@ if(BUILD_TESTING)
         TIMEOUT 20
         RUN_SERIAL TRUE # run alone
     )
+
+    add_executable(bounded_queue_test tests/bounded_queue_test.cpp )
+
+    target_link_libraries(bounded_queue_test 
+                            PRIVATE runtime_core 
+                            Threads::Threads )
+
+    add_test(NAME bounded_queue COMMAND bounded_queue_test)
+    set_tests_properties(bounded_queue PROPERTIES TIMEOUT 10)
     
 endif()
 
