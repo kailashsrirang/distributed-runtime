@@ -60,3 +60,14 @@
 - Debug and Release tests passed.
 - Still one task per connection; no worker thread pool yet.
 - Next: process multiple numbered blocks over one connection.
+
+## Multiple-block processing
+- Coordinator sends one task at a time over a persistent connection.
+- Results are validated and stored in task order.
+- Verified blocks of 4, 4, and 2 readings.
+- Worker processes tasks until EOF between messages.
+- Coordinator closes the connection after receiving all results.
+- Added a process-level integration test with timeouts.
+- Debug and Release tests passed.
+- Still one worker, one computation thread, and one task in flight.
+- Next: bounded queue with close semantics for the worker thread pool.

@@ -59,6 +59,21 @@ if(BUILD_TESTING)
     add_executable(payload_test tests/payload_test.cpp)
     target_link_libraries(payload_test PRIVATE runtime_core)
     add_test(NAME payload COMMAND payload_test)
+
+    find_package(Python3 REQUIRED COMPONENTS Interpreter)
+
+    add_test(
+        NAME integration
+        COMMAND
+            ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/tests/integration_test.py
+            $<TARGET_FILE:coordinator>
+            $<TARGET_FILE:worker>
+    )
+    set_tests_properties(integration PROPERTIES
+        TIMEOUT 20
+        RUN_SERIAL TRUE # run alone
+    )
     
 endif()
 

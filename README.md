@@ -16,6 +16,9 @@ A C++20 processing runtime for Linux, built incrementally toward distributed exe
 - One worker computes statistics from TCP-delivered readings.
 - Coordinator validates the returned result against a local reference.
 - Explicit binary64 payload encoding with bounds and validity checks.
+- Multiple numbered blocks processed over one TCP connection.
+- Clean worker exit after coordinator completion.
+- Automated coordinator/worker integration test.
 
 ## Development
 
