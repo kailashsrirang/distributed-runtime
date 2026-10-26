@@ -27,3 +27,13 @@
 - Checked worker failure when no coordinator is listening.
 - No task data, timeouts, or automatic TCP tests yet.
 - Next: framed messages and complete-buffer send/receive operations.
+
+## Protocol header
+- Added explicit 12-byte header encoding and decoding.
+- Fields: version, message type, reserved bytes, task ID, payload length.
+- Multibyte fields use big-endian order.
+- Payload limit: 64 KiB.
+- Tests check exact wire bytes, invalid headers, and size boundaries.
+- Debug and Release tests passed.
+- Header is not connected to socket transport yet.
+- Next: complete-buffer socket I/O and framed message exchange.

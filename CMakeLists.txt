@@ -7,6 +7,7 @@ add_library(runtime_core STATIC
     src/statistics.cpp
     src/dataset.cpp
     src/tcp.cpp
+    src/protocol.cpp
 )
 # where to find the header files for this library
 target_include_directories(runtime_core PUBLIC
@@ -43,6 +44,11 @@ if(BUILD_TESTING)
     add_executable(unique_fd_test tests/unique_fd_test.cpp)
     target_link_libraries(unique_fd_test PRIVATE runtime_core)
     add_test(NAME unique_fd COMMAND unique_fd_test)
+
+    add_executable(protocol_test tests/protocol_test.cpp)
+    target_link_libraries(protocol_test PRIVATE runtime_core)
+    add_test(NAME protocol COMMAND protocol_test)
+
 endif()
 
 set(project_targets runtime_core runtime_demo coordinator worker)
@@ -53,6 +59,7 @@ if(BUILD_TESTING)
     statistics_test
     dataset_test
     unique_fd_test
+    protocol_test
     )
 endif()
 
