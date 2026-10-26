@@ -1,6 +1,6 @@
+#include "message.hpp"
 #include "tcp.hpp"
 
-#include <cstdint>
 #include <exception>
 #include <iostream>
 #include <stdexcept>
@@ -9,24 +9,27 @@ int main()
 {
     try
     {
-        constexpr std::uint16_t port = 5000;
-        constexpr std::uint8_t expected_request = 0x01;
-        constexpr std::uint8_t reply = 0x02;
+        auto coordinator = connect_local(5000);
 
-        auto coordinator = connect_local(port);
+        // return Message type
+        auto request = protocol::receive_message(coordinator.get());
 
-        std::cout << "Connected to coordinator\n";
-
-        const auto request = receive_byte(coordinator.get());
-
-        if (request != expected_request)
+        if (!request)
         {
-            throw std::runtime_error("Unexpected coordinator request");
+            throw std::runtime_error("Coordinator closed before request");
         }
 
-        send_byte(coordinator.get(), reply);
+        if (request->type != protocol::MessageType::task)
+        {
+            throw std::runtime_error("Expected task message");
+        }
 
-        std::cout << "Reply sent\n";
+        request->type = protocol::MessageType::result;
+
+        protocol::send_message(coordinator.get(), *request);
+
+        std::cout << "Replied to task " << request->task_id << '\n';
+
         return 0;
     }
     catch (const std::exception &error)

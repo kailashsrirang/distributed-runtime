@@ -37,3 +37,14 @@
 - Debug and Release tests passed.
 - Header is not connected to socket transport yet.
 - Next: complete-buffer socket I/O and framed message exchange.
+
+## Framed message transport
+- Added blocking complete-buffer send and receive loops.
+- Messages own their payload bytes.
+- Header validation precedes payload allocation.
+- Clean EOF returns an empty optional; truncated messages throw.
+- Coordinator and worker exchange a framed demonstration payload.
+- Added stream tests for consecutive messages, split writes, and EOF.
+- Debug and Release tests passed.
+- No socket deadlines yet; an unresponsive peer can block a process.
+- Next: encode sensor readings and statistics for actual remote processing.

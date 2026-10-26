@@ -180,3 +180,69 @@ std::uint8_t receive_byte(int fd)
         throw_system_error("recv");
     }
 }
+
+void send_all(int fd, std::span<const std::uint8_t> bytes)
+{
+    std::size_t offset = 0;
+
+    while (offset < bytes.size())
+    {
+        const auto sent = ::send(
+            fd,
+            bytes.data() + offset,
+            bytes.size() - offset,
+            MSG_NOSIGNAL);
+
+        if (sent > 0)
+        {
+            offset += static_cast<std::size_t>(sent);
+            continue;
+        }
+
+        if (sent == -1)
+        {
+            if (errno == EINTR)
+            {
+                continue;
+            }
+
+            throw_system_error("send");
+        }
+
+        throw std::runtime_error("send made no progress");
+    }
+}
+
+bool receive_exact(int fd, std::span<std::uint8_t> bytes)
+{
+    std::size_t offset = 0;
+
+    while (offset < bytes.size())
+    {
+        const auto received = ::recv(fd, bytes.data() + offset, bytes.size() - offset, 0);
+
+        if (received > 0)
+        {
+            offset += static_cast<std::size_t>(received);
+            continue;
+        }
+
+        if (received == 0)
+        {
+            if (offset == 0)
+            {
+                return false;
+            }
+            throw std::runtime_error("Connection closed during a read");
+        }
+
+        if (errno == EINTR)
+        {
+            continue;
+        }
+
+        throw_system_error("recv");
+    }
+
+    return true;
+}

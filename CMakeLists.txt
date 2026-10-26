@@ -8,6 +8,7 @@ add_library(runtime_core STATIC
     src/dataset.cpp
     src/tcp.cpp
     src/protocol.cpp
+    src/message.cpp
 )
 # where to find the header files for this library
 target_include_directories(runtime_core PUBLIC
@@ -49,6 +50,11 @@ if(BUILD_TESTING)
     target_link_libraries(protocol_test PRIVATE runtime_core)
     add_test(NAME protocol COMMAND protocol_test)
 
+    add_executable(message_test tests/message_test.cpp)
+    target_link_libraries(message_test PRIVATE runtime_core)
+    add_test(NAME message COMMAND message_test)
+    set_tests_properties(message PROPERTIES TIMEOUT 5)
+    
 endif()
 
 set(project_targets runtime_core runtime_demo coordinator worker)
