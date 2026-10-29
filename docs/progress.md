@@ -81,3 +81,28 @@
 - Debug and Release tests passed.
 - Queue is not integrated into the worker yet.
 - Next: build a fixed-size computation thread pool around the queues.
+
+## Computation thread pool
+- Added a fixed number of computation threads.
+- Task and result queues have bounded capacities.
+- Messages retain task IDs; results may arrive out of order.
+- finish() drains accepted work while callers collect results.
+- Destruction closes queues and joins threads.
+- Processing exceptions are propagated to the caller.
+- Added multi-task, completion, failure, and destruction tests.
+- Debug and Release tests passed.
+- Pool is not integrated into the network worker yet.
+- Next: integrate the pool with a bounded number of outstanding tasks.
+
+## Network thread-pool integration
+- Worker main thread exclusively handles socket I/O.
+- Two computation threads process tasks through bounded queues.
+- Added batch_begin control message with a one-byte task count.
+- Maximum batch size and queue capacities are four.
+- Results may arrive out of order and are stored by task ID.
+- Coordinator rejects duplicate and out-of-batch results.
+- Integration test covers two batches and an uneven final block.
+- Debug and Release tests passed.
+- Blocking I/O and batch barriers remain; stalled peers can still block.
+- Coordinator still stores the full dataset and reference results.
+- Next: incremental framing and nonblocking coordinator I/O.

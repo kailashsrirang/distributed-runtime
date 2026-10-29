@@ -55,19 +55,19 @@ def main():
         )
 
         require(
-            "Completed 3 tasks covering 10 readings"
+            "Completed 7 tasks covering 26 readings"
             in coordinator_stdout,
             "Coordinator did not verify all tasks:\n"
             + coordinator_stdout,
         )
 
         require(
-            "Verified task 2: count=2" in coordinator_stdout,
+            "Verified task 6: count=2" in coordinator_stdout,
             "Final partial block was not verified",
         )
 
         require(
-            "Coordinator closed connection; completed 3 tasks"
+            "Coordinator closed connection; completed 7 tasks"
             in worker.stdout,
             "Worker did not finish cleanly:\n" + worker.stdout,
         )

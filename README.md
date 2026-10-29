@@ -19,6 +19,9 @@ A C++20 processing runtime for Linux, built incrementally toward distributed exe
 - Multiple numbered blocks processed over one TCP connection.
 - Clean worker exit after coordinator completion.
 - Automated coordinator/worker integration test.
+- Network worker uses a fixed computation thread pool.
+- Batches limit outstanding work to four tasks.
+- Coordinator validates and stores results by task ID.
 
 ## Development
 

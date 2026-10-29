@@ -22,7 +22,7 @@ namespace
 
     void validate(const protocol::Header &header)
     {
-        if (header.type != protocol::MessageType::task && header.type != protocol::MessageType::result)
+        if (header.type != protocol::MessageType::task && header.type != protocol::MessageType::result && header.type != protocol::MessageType::batch_begin)
         {
             throw std::invalid_argument("Unknown message type");
         }

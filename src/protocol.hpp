@@ -18,11 +18,13 @@ namespace protocol
     inline constexpr std::uint8_t version = 1;
     inline constexpr std::size_t header_size = 12;
     inline constexpr std::uint32_t max_payload_size = 64U * 1024U;
+    inline constexpr std::size_t max_tasks_per_batch = 4;
 
     enum class MessageType : std::uint8_t
     {
         task = 1,
-        result = 2
+        result = 2,
+        batch_begin = 3
     };
 
     struct Header

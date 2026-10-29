@@ -98,6 +98,15 @@ int main()
             protocol::encode_header({protocol::MessageType::task,
                                      0,
                                      protocol::max_payload_size + 1});
+
+            const auto batch_header = protocol::decode_header(
+                protocol::encode_header({protocol::MessageType::batch_begin,
+                                         0,
+                                         1}));
+
+            require(
+                batch_header.type == protocol::MessageType::batch_begin,
+                "Batch message type was not preserved");
         }
         catch (const std::invalid_argument &)
         {
