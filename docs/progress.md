@@ -106,3 +106,15 @@
 - Blocking I/O and batch barriers remain; stalled peers can still block.
 - Coordinator still stores the full dataset and reference results.
 - Next: incremental framing and nonblocking coordinator I/O.
+
+## Incremental message parser
+- Added per-connection parsing state for partial headers and payloads.
+- Parser consumes available bytes without socket calls or waiting.
+- Returns one message at a time and leaves remaining input for the caller.
+- Validates header length limits before allocating payload memory.
+- Rejects EOF during a partial message and reuse after parsing failure.
+- Tests cover every split point, byte-by-byte input, combined messages,
+  empty payloads, truncation, and maximum/oversized payloads.
+- Debug and Release tests passed.
+- Network programs still use the blocking message receiver.
+- Next: nonblocking receive/transmit state, including EAGAIN.

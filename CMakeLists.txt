@@ -11,6 +11,7 @@ add_library(runtime_core STATIC
     src/message.cpp
     src/payload.cpp
     src/processing_pool.cpp
+    src/message_parser.cpp
 )
 # where to find the header files for this library
 target_include_directories(runtime_core PUBLIC
@@ -88,6 +89,11 @@ if(BUILD_TESTING)
     target_link_libraries(processing_pool_test PRIVATE runtime_core)
     add_test(NAME processing_pool COMMAND processing_pool_test)
     set_tests_properties(processing_pool PROPERTIES TIMEOUT 10)
+
+    add_executable(message_parser_test tests/message_parser_test.cpp)
+    target_link_libraries(message_parser_test PRIVATE runtime_core)
+    add_test(NAME message_parser COMMAND message_parser_test)
+    set_tests_properties(message_parser PROPERTIES TIMEOUT 10)
     
 endif()
 
