@@ -10,6 +10,7 @@ add_library(runtime_core STATIC
     src/protocol.cpp
     src/message.cpp
     src/payload.cpp
+    src/processing_pool.cpp
 )
 # where to find the header files for this library
 target_include_directories(runtime_core PUBLIC
@@ -27,6 +28,7 @@ add_executable(worker src/worker.cpp)
 target_link_libraries(runtime_demo PRIVATE runtime_core)
 target_link_libraries(coordinator PRIVATE runtime_core)
 target_link_libraries(worker PRIVATE runtime_core)
+target_link_libraries(runtime_core PUBLIC Threads::Threads)
 
 #enable smake's built-in testing framework
 include(CTest)
@@ -77,12 +79,15 @@ if(BUILD_TESTING)
 
     add_executable(bounded_queue_test tests/bounded_queue_test.cpp )
 
-    target_link_libraries(bounded_queue_test 
-                            PRIVATE runtime_core 
+    target_link_libraries(bounded_queue_test PRIVATE runtime_core       
                             Threads::Threads )
-
     add_test(NAME bounded_queue COMMAND bounded_queue_test)
     set_tests_properties(bounded_queue PROPERTIES TIMEOUT 10)
+
+    add_executable(processing_pool_test tests/processing_pool_test.cpp)
+    target_link_libraries(processing_pool_test PRIVATE runtime_core)
+    add_test(NAME processing_pool COMMAND processing_pool_test)
+    set_tests_properties(processing_pool PROPERTIES TIMEOUT 10)
     
 endif()
 
@@ -96,6 +101,7 @@ if(BUILD_TESTING)
     unique_fd_test
     protocol_test
     payload_test
+    processing_pool_test
     )
 endif()
 
